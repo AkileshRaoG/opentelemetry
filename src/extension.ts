@@ -53,7 +53,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     vscode.commands.registerCommand('otel.openSettings', () =>
       vscode.commands.executeCommand(
         'workbench.action.openSettings',
-        '@ext:local.opentelemetry'
+        `@ext:${context.extension.id}`
       )
     ),
     vscode.commands.registerCommand('otel.openServiceMap', () => ServiceMapPanel.show(controller)),
