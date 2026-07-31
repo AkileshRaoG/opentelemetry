@@ -7,10 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.opentelemetry"><img alt="Version" src="https://img.shields.io/visual-studio-marketplace/v/SukantaSaha.opentelemetry?color=1e88e5&label=Marketplace&logo=visual-studio-code"></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.opentelemetry"><img alt="Installs" src="https://img.shields.io/visual-studio-marketplace/i/SukantaSaha.opentelemetry?color=1e88e5"></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.opentelemetry"><img alt="Downloads" src="https://img.shields.io/visual-studio-marketplace/d/SukantaSaha.opentelemetry?color=1e88e5"></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.opentelemetry"><img alt="Rating" src="https://img.shields.io/visual-studio-marketplace/r/SukantaSaha.opentelemetry?color=1e88e5"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.vscode-opentelemetry"><img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-v0.1.0-blue?logo=visualstudiocode"></a>
   <a href="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
 </p>
