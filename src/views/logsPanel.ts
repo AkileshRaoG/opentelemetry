@@ -170,12 +170,25 @@ async function resolveWorkspaceFile(filepath: string): Promise<vscode.Uri | unde
 
 const STYLE = `
   .rows { overflow: auto; }
-  td.msg { max-width: 60ch; word-break: break-word; white-space: pre-wrap; }
-  td.attrs { color: var(--vscode-descriptionForeground); font-size: 0.9em; }
+  table { table-layout: fixed; min-width: 100%; }
+  th { position: relative; }
+  td.msg { word-break: break-word; white-space: pre-wrap; overflow-wrap: anywhere; }
+  td.attrs { color: var(--vscode-descriptionForeground); font-size: 0.9em; word-break: break-word; overflow-wrap: anywhere; }
+  td.time, td.sev { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sev { font-weight: 600; }
   .sev-error, .sev-fatal { color: var(--vscode-errorForeground); }
   .sev-warn { color: var(--vscode-editorWarning-foreground, #cca700); }
   .count { margin-left: auto; }
+  .col-resizer {
+    position: absolute; top: 0; right: -3px; width: 7px; height: 100%;
+    cursor: col-resize; user-select: none; z-index: 3; touch-action: none;
+  }
+  .col-resizer::after {
+    content: ''; position: absolute; top: 20%; right: 3px; width: 1px; height: 60%;
+    background: var(--vscode-panel-border);
+  }
+  th:hover .col-resizer::after { background: var(--vscode-focusBorder); }
+  body.col-resizing { cursor: col-resize; user-select: none; }
 `;
 
 const BODY = `
@@ -194,8 +207,20 @@ const BODY = `
   <button id="open" class="secondary">Open In Editor</button>
   <span id="count" class="count muted"></span>
 </div>
-<div class="rows"><table><thead>
-  <tr><th style="width:200px">Time</th><th style="width:70px">Level</th><th>Message</th><th>Attributes</th></tr>
+<div class="rows"><table>
+<colgroup>
+  <col id="col-time" style="width:200px" />
+  <col id="col-level" style="width:70px" />
+  <col id="col-msg" style="width:480px" />
+  <col id="col-attrs" style="width:360px" />
+</colgroup>
+<thead>
+  <tr>
+    <th>Time</th>
+    <th>Level</th>
+    <th>Message<span class="col-resizer" data-col="col-msg"></span></th>
+    <th>Attributes<span class="col-resizer" data-col="col-attrs"></span></th>
+  </tr>
 </thead><tbody id="tbody"></tbody></table>
 <div id="empty" class="empty">Waiting for logs…</div>
 </div>
@@ -240,7 +265,7 @@ function render(rows){
     tr.className = 'selectable' + (r.i===selected?' selected':'');
     tr.dataset.i = r.i;
     tr.innerHTML =
-      '<td class="muted">'+esc(r.time)+'</td>'+
+      '<td class="time muted">'+esc(r.time)+'</td>'+
       '<td class="sev '+sevClass(r.sevNum)+'">'+esc(r.sev)+'</td>'+
       '<td class="msg">'+esc(r.msg)+(r.hasCode?' <span class="muted">[code]</span>':'')+'</td>'+
       '<td class="attrs">'+esc(r.attrs)+'</td>';
@@ -251,6 +276,53 @@ function render(rows){
 }
 
 function esc(s){ return (s==null?'':String(s)).replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+// --- Column resizing (Message & Attributes) with persistence ---
+const MIN_COL = 120;
+const cols = { 'col-msg': document.getElementById('col-msg'), 'col-attrs': document.getElementById('col-attrs') };
+
+function saveWidths(){
+  const prev = vscode.getState() || {};
+  const widths = {};
+  for (const id in cols){ if (cols[id]) widths[id] = parseInt(cols[id].style.width,10) || cols[id].offsetWidth; }
+  vscode.setState(Object.assign({}, prev, { colWidths: widths }));
+}
+function restoreWidths(){
+  const st = vscode.getState() || {};
+  const widths = st.colWidths || {};
+  for (const id in widths){ if (cols[id] && widths[id]) cols[id].style.width = Math.max(MIN_COL, widths[id]) + 'px'; }
+}
+
+let drag = null;
+function onMove(e){
+  if (!drag) return;
+  const dx = e.clientX - drag.startX;
+  const w = Math.max(MIN_COL, drag.startW + dx);
+  drag.col.style.width = w + 'px';
+  e.preventDefault();
+}
+function onUp(){
+  if (!drag) return;
+  drag = null;
+  document.body.classList.remove('col-resizing');
+  document.removeEventListener('mousemove', onMove);
+  document.removeEventListener('mouseup', onUp);
+  saveWidths();
+}
+for (const handle of document.querySelectorAll('.col-resizer')){
+  handle.addEventListener('mousedown', (e)=>{
+    const col = cols[handle.dataset.col];
+    if (!col) return;
+    drag = { col: col, startX: e.clientX, startW: col.offsetWidth };
+    document.body.classList.add('col-resizing');
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    e.preventDefault();
+    e.stopPropagation();
+  });
+}
+restoreWidths();
+
 
 q.addEventListener('input', apply);
 level.addEventListener('change', apply);

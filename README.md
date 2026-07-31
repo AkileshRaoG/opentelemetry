@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.vscode-opentelemetry"><img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-v0.1.1-blue?logo=visualstudiocode"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.vscode-opentelemetry"><img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-v0.1.2-blue?logo=visualstudiocode"></a>
   <a href="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
 </p>
@@ -38,6 +38,20 @@ JetBrains Rider OpenTelemetry plugin.
   instrumentation snippets for **external apps**.
 
 > Telemetry is stored **in memory** and cleared when the receiver restarts (Phase 1).
+
+## 📸 Screenshots
+
+**Logs** — filter by text/level/attributes, with Navigate To Code and Open In Editor:
+
+![Logs panel](images/screenshots/logs.png)
+
+**Traces & spans** — filter traces and examine any trace as a span waterfall:
+
+![Traces panel](images/screenshots/traces.png)
+
+**Metrics** — per-instance gauges, sums, and histograms:
+
+![Metrics panel](images/screenshots/metrics.png)
 
 ## 🚀 Quick start
 
