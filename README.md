@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.vscode-opentelemetry"><img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-v0.1.0-blue?logo=visualstudiocode"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=SukantaSaha.vscode-opentelemetry"><img alt="VS Code Marketplace" src="https://img.shields.io/badge/VS%20Code%20Marketplace-v0.1.1-blue?logo=visualstudiocode"></a>
   <a href="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/sukanta1991/opentelemetry/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
 </p>
