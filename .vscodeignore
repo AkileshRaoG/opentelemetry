@@ -12,6 +12,7 @@ tsconfig.json
 CONTRIBUTING.md
 CODE_OF_CONDUCT.md
 *.vsix
+images/screenshots/**
 node_modules/typescript/**
 node_modules/esbuild/**
 node_modules/@esbuild/**
